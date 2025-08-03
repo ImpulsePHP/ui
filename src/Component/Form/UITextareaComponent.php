@@ -118,7 +118,7 @@ final class UITextareaComponent extends AbstractComponent
 
     private function getInputClasses(): string
     {
-        $baseClasses = 'w-full bg-white rounded-md shadow-sm focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
+        $baseClasses = 'w-full bg-white rounded-md focus:outline-none focus:ring-1 transition-all duration-200 ease-in-out';
         $sizeClasses = $this->getSizeClasses();
         $borderClasses = $this->getBorderColor();
         $focusClasses = $this->getFocusBorderColor();

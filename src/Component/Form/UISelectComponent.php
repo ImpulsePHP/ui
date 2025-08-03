@@ -256,7 +256,7 @@ final class UISelectComponent extends AbstractComponent
 
     private function getSelectClasses(): string
     {
-        $baseClasses = 'bg-white rounded-md shadow-sm focus:outline-none focus:ring-1 transition-colors duration-200 cursor-pointer relative transition-all duration-200 ease-in-out';
+        $baseClasses = 'bg-white rounded-md focus:outline-none focus:ring-1 transition-colors duration-200 cursor-pointer relative transition-all duration-200 ease-in-out';
         $sizeClasses = $this->getSizeClasses();
 
         if ($this->iconName) {
