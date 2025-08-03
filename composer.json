@@ -1,0 +1,43 @@
+{
+  "name": "impulsephp/ui",
+  "description": "A comprehensive UI component provider for ImpulsePHP, offering pre-built components to rapidly design and develop modern web application interfaces",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Guillaume Bouyer",
+      "email": "impulsephp@icloud.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Impulse\\UI\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Impulse\\UI\\Tests\\": "tests/"
+    }
+  },
+  "scripts": {
+    "post-install-cmd": [
+      "@composer dump-autoload --optimize"
+    ],
+    "test": "phpunit"
+  },
+  "require": {
+    "php": ">=8.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-latest",
+    "phpunit/phpunit": "^10.0"
+  },
+  "suggest": {
+    "impulsephp/validator": "Required for form validation components",
+    "impulsephp/translation": "Required for internationalization support in UI components"
+  },
+  "extra": {
+    "impulse-provider": "Impulse\\Ui\\UiProvider"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true
+}
