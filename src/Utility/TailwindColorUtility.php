@@ -228,6 +228,11 @@ final class TailwindColorUtility
         return "bg-$color-100";
     }
 
+    public static function getBackgroundClasses(string $color): string
+    {
+        return "bg-$color-50";
+    }
+
     public static function getEmptyStateIconColorClasses(string $color): string
     {
         return "text-$color-600";
