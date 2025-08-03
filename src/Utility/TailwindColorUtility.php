@@ -305,6 +305,15 @@ final class TailwindColorUtility
         return "bg-$color-500 text-white";
     }
 
+    public static function getAvatarClasses(string $color, string $variant): string
+    {
+        return match ($variant) {
+            'soft' => "bg-{$color}-100 text-{$color}-700",
+            'outline' => "bg-white border-2 border-{$color}-200 text-{$color}-700",
+            default => "bg-{$color}-500 text-white",
+        };
+    }
+
     public static function getButtonClasses(string $color, string $variant = 'filled'): string
     {
         return match ($variant) {
