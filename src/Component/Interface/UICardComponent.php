@@ -48,7 +48,7 @@ final class UICardComponent extends AbstractComponent
             'description' => '',
             'imageSrc' => '',
             'imageAlt' => '',
-            'shadow' => true,
+            'shadow' => false,
             'border' => false,
             'rounded' => true,
             'hoverable' => false,
