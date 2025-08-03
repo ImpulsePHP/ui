@@ -70,7 +70,7 @@ final class UIAvatarComponent extends AbstractComponent
     private function getAvatarClasses(): string
     {
         $classes = [];
-        $classes[] = 'inline-flex items-center justify-center font-semibold relative overflow-hidden';
+        $classes[] = 'inline-flex items-center justify-center font-medium relative overflow-hidden';
         $classes[] = $this->getSizeClasses();
         $classes[] = $this->getShapeClasses();
 
