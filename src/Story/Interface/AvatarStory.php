@@ -50,7 +50,6 @@ final class AvatarStory extends AbstractStory
     public function variants(): array
     {
         return [
-            // === AVATARS AVEC IMAGE ===
             'image avatar' => [
                 'src' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=150&h=150&fit=crop&crop=face',
                 'name' => 'John Doe',
@@ -58,7 +57,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'normal',
                 'shape' => 'circle',
             ],
-
             'image with status' => [
                 'src' => 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Jane Smith',
@@ -68,7 +66,6 @@ final class AvatarStory extends AbstractStory
                 'status' => 'online',
                 'border' => true,
             ],
-
             'image with notification' => [
                 'src' => 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Mike Johnson',
@@ -77,7 +74,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'rounded',
                 'notification' => '3',
             ],
-
             'clickable avatar' => [
                 'src' => 'https://images.unsplash.com/photo-1438761681033-6461ffad8d80?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Sarah Wilson',
@@ -87,8 +83,6 @@ final class AvatarStory extends AbstractStory
                 'clickable' => true,
                 'status' => 'away',
             ],
-
-            // === AVATARS AVEC INITIALES ===
             'initials basic' => [
                 'name' => 'Alexandre Dupont',
                 'color' => 'blue',
@@ -96,7 +90,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'normal',
                 'shape' => 'circle',
             ],
-
             'custom initials' => [
                 'initials' => 'JD',
                 'color' => 'green',
@@ -104,7 +97,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'shape' => 'rounded',
             ],
-
             'single name' => [
                 'name' => 'Utilisateur',
                 'color' => 'purple',
@@ -112,15 +104,12 @@ final class AvatarStory extends AbstractStory
                 'size' => 'normal',
                 'shape' => 'circle',
             ],
-
-            // === TAILLES ===
             'tiny avatar' => [
                 'name' => 'Petit Avatar',
                 'size' => 'tiny',
                 'color' => 'red',
                 'shape' => 'circle',
             ],
-
             'small avatar' => [
                 'name' => 'Avatar Petit',
                 'size' => 'small',
@@ -128,7 +117,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'status' => 'online',
             ],
-
             'normal avatar' => [
                 'name' => 'Avatar Normal',
                 'size' => 'normal',
@@ -136,7 +124,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'notification' => '5',
             ],
-
             'large avatar' => [
                 'name' => 'Avatar Grand',
                 'size' => 'large',
@@ -145,7 +132,6 @@ final class AvatarStory extends AbstractStory
                 'status' => 'busy',
                 'border' => true,
             ],
-
             'huge avatar' => [
                 'name' => 'Avatar Énorme',
                 'size' => 'huge',
@@ -153,15 +139,12 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'variant' => 'soft',
             ],
-
-            // === FORMES ===
             'circle shape' => [
                 'name' => 'Avatar Rond',
                 'shape' => 'circle',
                 'color' => 'indigo',
                 'size' => 'large',
             ],
-
             'rounded shape' => [
                 'name' => 'Avatar Arrondi',
                 'shape' => 'rounded',
@@ -169,7 +152,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'variant' => 'soft',
             ],
-
             'square shape' => [
                 'name' => 'Avatar Carré',
                 'shape' => 'square',
@@ -177,30 +159,24 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'variant' => 'outline',
             ],
-
-            // === VARIANTES DE COULEUR ===
             'filled variant' => [
                 'name' => 'Avatar Rempli',
                 'variant' => 'filled',
                 'color' => 'blue',
                 'size' => 'large',
             ],
-
             'soft variant' => [
                 'name' => 'Avatar Doux',
                 'variant' => 'soft',
                 'color' => 'green',
                 'size' => 'large',
             ],
-
             'outline variant' => [
                 'name' => 'Avatar Contour',
                 'variant' => 'outline',
                 'color' => 'red',
                 'size' => 'large',
             ],
-
-            // === STATUTS ===
             'online status' => [
                 'name' => 'En Ligne',
                 'status' => 'online',
@@ -208,7 +184,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'shape' => 'circle',
             ],
-
             'offline status' => [
                 'name' => 'Hors Ligne',
                 'status' => 'offline',
@@ -216,7 +191,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'shape' => 'circle',
             ],
-
             'busy status' => [
                 'name' => 'Occupé',
                 'status' => 'busy',
@@ -224,7 +198,6 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'shape' => 'circle',
             ],
-
             'away status' => [
                 'name' => 'Absent',
                 'status' => 'away',
@@ -232,30 +205,24 @@ final class AvatarStory extends AbstractStory
                 'size' => 'large',
                 'shape' => 'circle',
             ],
-
-            // === NOTIFICATIONS ===
             'single notification' => [
                 'name' => 'Une Notification',
                 'notification' => '1',
                 'color' => 'blue',
                 'size' => 'large',
             ],
-
             'multiple notifications' => [
                 'name' => 'Plusieurs Notifications',
                 'notification' => '9',
                 'color' => 'green',
                 'size' => 'large',
             ],
-
             'high notifications' => [
                 'name' => 'Beaucoup de Notifications',
                 'notification' => '99+',
                 'color' => 'purple',
                 'size' => 'large',
             ],
-
-            // === COMBINAISONS COMPLEXES ===
             'complete avatar' => [
                 'src' => 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Utilisateur Complet',
@@ -267,7 +234,6 @@ final class AvatarStory extends AbstractStory
                 'border' => true,
                 'clickable' => true,
             ],
-
             'team leader' => [
                 'name' => 'Chef Équipe',
                 'color' => 'purple',
@@ -277,7 +243,6 @@ final class AvatarStory extends AbstractStory
                 'status' => 'online',
                 'border' => true,
             ],
-
             'admin user' => [
                 'initials' => 'AD',
                 'color' => 'red',
@@ -287,149 +252,126 @@ final class AvatarStory extends AbstractStory
                 'notification' => '!',
                 'clickable' => true,
             ],
-
-            // === TOUTES LES COULEURS ===
             'slate color' => [
                 'name' => 'Couleur Slate',
                 'color' => 'slate',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'gray color' => [
                 'name' => 'Couleur Gray',
                 'color' => 'gray',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'zinc color' => [
                 'name' => 'Couleur Zinc',
                 'color' => 'zinc',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'red color' => [
                 'name' => 'Couleur Rouge',
                 'color' => 'red',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'orange color' => [
                 'name' => 'Couleur Orange',
                 'color' => 'orange',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'amber color' => [
                 'name' => 'Couleur Ambre',
                 'color' => 'amber',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'yellow color' => [
                 'name' => 'Couleur Jaune',
                 'color' => 'yellow',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'lime color' => [
                 'name' => 'Couleur Lime',
                 'color' => 'lime',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'green color' => [
                 'name' => 'Couleur Verte',
                 'color' => 'green',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'emerald color' => [
                 'name' => 'Couleur Émeraude',
                 'color' => 'emerald',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'teal color' => [
                 'name' => 'Couleur Teal',
                 'color' => 'teal',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'cyan color' => [
                 'name' => 'Couleur Cyan',
                 'color' => 'cyan',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'sky color' => [
                 'name' => 'Couleur Ciel',
                 'color' => 'sky',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'blue color' => [
                 'name' => 'Couleur Bleue',
                 'color' => 'blue',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'indigo color' => [
                 'name' => 'Couleur Indigo',
                 'color' => 'indigo',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'violet color' => [
                 'name' => 'Couleur Violette',
                 'color' => 'violet',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'purple color' => [
                 'name' => 'Couleur Pourpre',
                 'color' => 'purple',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'fuchsia color' => [
                 'name' => 'Couleur Fuchsia',
                 'color' => 'fuchsia',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'pink color' => [
                 'name' => 'Couleur Rose',
                 'color' => 'pink',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
             'rose color' => [
                 'name' => 'Couleur Rose',
                 'color' => 'rose',
                 'variant' => 'filled',
                 'size' => 'normal',
             ],
-
-            // === CAS D'USAGE RÉELS ===
             'user profile' => [
                 'src' => 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Marie Dubois',
@@ -440,7 +382,6 @@ final class AvatarStory extends AbstractStory
                 'clickable' => true,
                 'border' => true,
             ],
-
             'chat participant' => [
                 'name' => 'Participant Chat',
                 'size' => 'small',
@@ -448,7 +389,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'status' => 'online',
             ],
-
             'notification sender' => [
                 'initials' => 'SY',
                 'size' => 'tiny',
@@ -456,7 +396,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'notification' => '2',
             ],
-
             'team member card' => [
                 'src' => 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?w=150&h=150&fit=crop&crop=face',
                 'name' => 'Thomas Martin',
@@ -466,7 +405,6 @@ final class AvatarStory extends AbstractStory
                 'status' => 'busy',
                 'border' => true,
             ],
-
             'guest user' => [
                 'name' => 'Invité',
                 'color' => 'gray',
@@ -475,7 +413,6 @@ final class AvatarStory extends AbstractStory
                 'shape' => 'circle',
                 'status' => 'offline',
             ],
-
             'premium user' => [
                 'name' => 'Utilisateur Premium',
                 'color' => 'yellow',

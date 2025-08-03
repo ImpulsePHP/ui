@@ -64,7 +64,7 @@ final class UIAvatarComponent extends AbstractComponent
             return strtoupper(substr($nameParts[0], 0, 2));
         }
 
-        return 'U';
+        return 'AN';
     }
 
     private function getAvatarClasses(): string
