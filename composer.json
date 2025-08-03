@@ -38,6 +38,6 @@
   "extra": {
     "impulse-provider": "Impulse\\Ui\\UiProvider"
   },
-  "minimum-stability": "dev",
+  "minimum-stability": "stable",
   "prefer-stable": true
 }
