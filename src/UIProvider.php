@@ -52,6 +52,9 @@ final class UIProvider extends AbstractProvider implements HasComponentNamespace
         $this->registerDefaultTranslations($translator);
     }
 
+    /**
+     * @throws \JsonException
+     */
     private function ensureValidatorIsAvailable(ImpulseContainer $container): void
     {
         if (!$container->has(ValidatorInterface::class)) {
