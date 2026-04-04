@@ -71,6 +71,24 @@ On y trouve notamment :
 - `UITextareaComponent`
 - `UICheckboxRadioComponent`
 - `UIToggleComponent`
+- `UIModalComponent`
+- `UIAccordionComponent`
+- `UISkeletonComponent`
+- `UIDropdownComponent`
+- `UIBreadcrumbComponent`
+- `UIPaginationComponent`
+- `UIDataTableComponent`
+- `UIDatePickerComponent`
+- `UIFileUploadComponent`
+- `UIDrawerComponent`
+- `UITooltipComponent`
+- `UIPopoverComponent`
+- `UIProgressComponent` (linéaire + circulaire)
+- `UIStepperComponent`
+- `UITimelineComponent`
+- `UISidebarComponent`
+- `UICommandPaletteComponent`
+- `UIStatCardComponent`
 
 ## Exemple d’usage complet
 
@@ -128,6 +146,4 @@ composer test
 ## Licence
 
 MIT
-
-
 

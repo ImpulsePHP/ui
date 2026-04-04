@@ -18,4 +18,53 @@ return [
         'no_items' => 'No items found',
         'description' => 'There are currently no items to display.',
     ],
+    'common' => [
+        'close' => 'close',
+    ],
+    'file_upload' => [
+        'remove' => 'remove',
+        'drop_zone' => 'Drag and drop files here or use action addFile().',
+        'accept' => 'Accept',
+        'max_files' => 'Max files',
+        'max_files_reached' => 'Maximum file count reached.',
+    ],
+    'datatable' => [
+        'empty' => 'No data available.',
+        'actions' => 'Actions',
+    ],
+    'drawer' => [
+        'title' => 'Drawer',
+    ],
+    'tooltip' => [
+        'text' => 'Tooltip',
+        'trigger' => 'Hover me',
+    ],
+    'popover' => [
+        'title' => 'Popover',
+        'trigger' => 'Toggle popover',
+    ],
+    'progress' => [
+        'label' => 'Progress',
+    ],
+    'stepper' => [
+        'no_steps' => 'No steps configured.',
+        'step_prefix' => 'Step',
+    ],
+    'timeline' => [
+        'event' => 'Event',
+    ],
+    'stat_card' => [
+        'metric' => 'Metric',
+    ],
+    'sidebar' => [
+        'title' => 'Navigation',
+    ],
+    'command_palette' => [
+        'trigger' => 'Cmd+K',
+        'placeholder' => 'Type a command...',
+    ],
+    'pagination' => [
+        'previous' => 'Previous',
+        'next' => 'Next',
+    ],
 ];

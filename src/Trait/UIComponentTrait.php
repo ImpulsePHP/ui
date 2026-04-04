@@ -31,6 +31,18 @@ trait UIComponentTrait
     }
 
     /**
+     * Traduit une cle UI et revient a une valeur par defaut si le service de traduction n'est pas disponible.
+     */
+    protected function transOrDefault(string $key, string $default, array $parameters = []): string
+    {
+        try {
+            return $this->trans($key, $parameters);
+        } catch (\Throwable) {
+            return $default;
+        }
+    }
+
+    /**
      * @throws \ReflectionException
      */
     protected function trans(string $key, array $parameters = []): string
@@ -54,4 +66,3 @@ trait UIComponentTrait
         return $this->validator ??= App::get(ValidatorInterface::class);
     }
 }
-
