@@ -286,12 +286,10 @@ final class UIDataTableComponent extends AbstractComponent
 
         return <<<HTML
             <div class="ui-data-table overflow-visible border border-slate-200 rounded-lg bg-white">
-                <div class="overflow-x-auto">
-                    <table class="min-w-full">
-                        <thead class="bg-slate-50"><tr>{$theadHtml}<th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">{$actionsLabel}</th></tr></thead>
-                        <tbody>{$tbodyHtml}</tbody>
-                    </table>
-                </div>
+                <table class="min-w-full">
+                    <thead class="bg-slate-50"><tr>{$theadHtml}<th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500">{$actionsLabel}</th></tr></thead>
+                    <tbody>{$tbodyHtml}</tbody>
+                </table>
                 {$paginationHtml}
             </div>
         HTML;
