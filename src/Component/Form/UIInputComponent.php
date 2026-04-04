@@ -92,7 +92,7 @@ final class UIInputComponent extends AbstractComponent
         }
 
         $fieldName = $this->name ?: $this->label ?: 'field';
-        $error = $this->validator->validateField($fieldName, $this->value, $this->rules);
+        $error = $this->validateCurrentField($fieldName, $this->value, $this->rules);
 
         $this->errorMessage = $error ?? '';
     }

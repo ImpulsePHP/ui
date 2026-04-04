@@ -174,7 +174,7 @@ final class UISelectComponent extends AbstractComponent
 
         $fieldName = $this->name ?: $this->label ?: 'field';
         $value = $this->multiple && is_array($this->value) ? implode(',', $this->value) : $this->value;
-        $error = $this->validator->validateField($fieldName, $value, $this->rules);
+        $error = $this->validateCurrentField($fieldName, $value, $this->rules);
 
         $this->errorMessage = $error ?? '';
     }
