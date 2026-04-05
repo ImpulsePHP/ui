@@ -1,21 +1,30 @@
 # ImpulsePHP UI
 
-`impulsephp/ui` fournit une bibliothèque de composants d’interface prêts à l’emploi pour ImpulsePHP. Le package aide à construire rapidement des interfaces cohérentes en proposant des composants de formulaire, de navigation, de notification et des stories de démonstration intégrées.
+`impulsephp/ui` fournit une bibliothèque de composants d’interface réutilisables pour ImpulsePHP, avec des stories de démonstration intégrées et des helpers pour accélérer le prototypage d’interfaces.
 
-## Ce que fait le package
+Cette README a été mise à jour pour refléter les améliorations récentes : coloration du composant `CodeBlock`, contrôle des couleurs pour `Heatmap`, support d'éléments embarqués dans `Breadcrumb`, comportement amélioré du `Tooltip` et ajustements visuels pour `DataTable` / `TreeView`.
 
-- expose des composants UI réutilisables ;
-- s’intègre avec `impulsephp/validator` pour la validation ;
-- s’intègre avec `impulsephp/translation` pour les libellés et messages ;
-- embarque des stories prêtes à l’emploi pour `impulsephp/story` ;
-- charge une feuille de style fournie par le package.
+## Fonctionnalités principales
+
+- Composants UI pour formulaires, navigation, notifications et widgets d'interface.
+- Stories intégrées (dossier `src/Story`) pour parcourir et tester visuellement les composants.
+- Intégration avec `impulsephp/translation` et `impulsephp/validator`.
+- Assets CSS fournis dans `public/css/ui.css`.
+
+## Nouveautés récentes
+
+- `UIHeatmapComponent` : possibilité de choisir une couleur principale (Tailwind) ou de fournir une palette hex; les stories proposent désormais un contrôle `color`.
+- `UIBreadcrumbComponent` : les items peuvent contenir du `html` brut ou un `{ component, props, slot }` pour insérer, par exemple, un `<select>` dans un segment de breadcrumb.
+- `UITooltipComponent` : support d'un soulignement en tirets configurable (`underline`, `underlineColor`) et améliorations pour hover/click/focus.
+- `UIDataTableComponent` : chevrons de tri affichés pour la colonne triée et rendu SVG côté serveur pour fiabilité visuelle.
+- `UITreeViewComponent` : meilleure alignement des labels enfants sous le label parent.
+- Certaines stories ont été enrichies pour faciliter les tests (variants, contrôles de couleur/position etc.).
 
 ## Prérequis
 
-- PHP 8.2 ou supérieur ;
-- `impulsephp/core` ;
-- `impulsephp/translation` ;
-- `impulsephp/validator`.
+- PHP 8.2 ou supérieur
+- `impulsephp/core`
+- (optionnel) `impulsephp/translation` et `impulsephp/validator` pour fonctionnalités additionnelles
 
 ## Installation
 
@@ -23,125 +32,85 @@
 composer require impulsephp/ui
 ```
 
-Le package déclare un provider dans `composer.json`. Si votre application n’utilise pas l’auto-découverte, enregistrez `Impulse\UI\UIProvider` manuellement.
+Si votre application n’utilise pas l’auto-découverte de composer, enregistrez manuellement le provider `Impulse\\UI\\UIProvider`.
 
-## Dépendances recommandées
-
-Le package s’appuie sur deux services externes au moment du boot :
-
-- `Impulse\Translation\Contract\TranslatorInterface`
-- `Impulse\Validator\Contract\ValidatorInterface`
-
-En pratique, il est recommandé de charger les providers suivants avant `UIProvider` :
-
-```php
-return [
-    'providers' => [
-        Impulse\Translation\TranslatorProvider::class,
-        Impulse\Validator\ValidatorProvider::class,
-        Impulse\UI\UIProvider::class,
-    ],
-];
-```
-
-## Ce que fait le provider
+## Provider
 
 Au démarrage, `UIProvider` :
 
-- enregistre l’espace de noms `Impulse\UI\Component\` ;
-- ajoute `vendor/impulsephp/ui/src/Story` aux chemins scannés par `impulsephp/story` ;
+- enregistre l’espace de noms `Impulse\\UI\\Component\\` ;
+- ajoute `src/Story` aux chemins scannés par `impulsephp/story` ;
 - ajoute `public/css/ui.css` à la configuration CSS ;
 - enregistre le namespace de traduction `ui` ;
 - vérifie la présence du validateur et du traducteur dans le conteneur.
 
-## Composants disponibles
+## Composants et organisation
 
-Le package est organisé par familles dans `src/Component/` :
+Les composants sont rangés sous `src/Component/` par famille : `Form/`, `Navigation/`, `Notification/`, `Interface/`.
 
-- `Form/`
-- `Navigation/`
-- `Notification/`
-- `Interface/`
+Exemples notables : `UIInputComponent`, `UIButtonComponent`, `UISelectComponent`, `UIModalComponent`, `UIDataTableComponent`, `UIDrawerComponent`, `UITooltipComponent`, `UIPopoverComponent`, `UIHeatmapComponent`, `UICodeBlockComponent`, `UIBreadcrumbComponent`, `UITreeViewComponent`, `UISidebarComponent`, etc.
 
-On y trouve notamment :
+Note : le composant `UIPrintComponent` est désactivé / deprecated dans la version courante (template vide). Si vous souhaitez une suppression complète, contactez l'équipe ou supprimez les références aux stories associées.
 
-- `UIInputComponent`
-- `UIButtonComponent`
-- `UISelectComponent`
-- `UITextareaComponent`
-- `UICheckboxRadioComponent`
-- `UIToggleComponent`
-- `UIModalComponent`
-- `UIAccordionComponent`
-- `UISkeletonComponent`
-- `UIDropdownComponent`
-- `UIBreadcrumbComponent`
-- `UIPaginationComponent`
-- `UIDataTableComponent`
-- `UIDatePickerComponent`
-- `UIFileUploadComponent`
-- `UIDrawerComponent`
-- `UITooltipComponent`
-- `UIPopoverComponent`
-- `UIProgressComponent` (linéaire + circulaire)
-- `UIStepperComponent`
-- `UITimelineComponent`
-- `UISidebarComponent`
-- `UICommandPaletteComponent`
-- `UIStatCardComponent`
+## Stories et contrôles
 
-## Exemple d’usage complet
+Les stories fournissent des arguments de base (`getBaseArgs`) et des `variants()` pour tester les variantes visuelles. Pour faciliter l'ajout de contrôles (dropdowns) dans les stories, la convention suivante est autorisée dans les stories :
 
-Le composant `Impulse\UI\Component\Form\UIInputComponent` gère par exemple le libellé, la valeur, la couleur, la taille et les règles de validation.
+- fournir un argument sous la forme `[defaultValue, allowedValuesArray]` pour indiquer au UI explorer qu'il y a un contrôle avec des options. Exemple : `['side' => ['right', ['left','right']]]`.
+
+Le loader de story ne transmettra que la `defaultValue` au composant lors du rendu, évitant d'envoyer le tableau `allowedValues` en tant que valeur d'état côté serveur.
+
+## Exemples d'utilisation
+
+Rendre un composant dans une story :
 
 ```php
-use Impulse\UI\Component\Form\UIInputComponent;
+use Impulse\\UI\\Component\\Interface\\UIDataTableComponent;
 
-$component = UIInputComponent::class;
-
+$component = UIDataTableComponent::class;
 $args = [
-    'label' => 'Adresse email',
-    'type' => 'email',
-    'name' => 'email',
-    'placeholder' => 'vous@example.com',
-    'rules' => 'required|email',
-    'required' => true,
-    'helpText' => 'Nous utiliserons cette adresse pour vous contacter.',
-    'color' => 'indigo',
+    'columns' => [['key' => 'name', 'label' => 'Name']],
+    'rows' => [['name' => 'Alice']],
+    'sortBy' => 'name',
 ];
 ```
 
-Lorsqu’une règle est définie, certains composants UI déclenchent automatiquement une validation de champ et exposent le message d’erreur correspondant.
+## Assets JS (engine)
 
-## Explorer les composants avec Story
+Le répertoire `js/` contient l'engine JS du package. Pour construire l'artefact :
 
-Le package contient des stories prêtes à l’emploi dans `src/Story/`. Si `impulsephp/story` est installé et activé, les composants UI apparaissent automatiquement dans l’explorateur visuel sans configuration supplémentaire.
+```bash
+cd js
+npm install
+npm run build
+```
 
-## Assets CSS
+Le `package.json` inclut des scripts utiles : `build`, `watch` et `test`.
 
-Le package embarque une feuille de style compilée dans `public/css/ui.css`. Elle est chargée par le provider sous forme de ressource inline afin de simplifier l’intégration.
+## Tests
+
+Tests unitaires et smoke tests se trouvent dans `tests/`. Pour exécuter les smoke tests du package UI :
+
+```bash
+cd ui
+./vendor/bin/phpunit tests/smoke
+```
 
 ## Traductions
 
-Les traductions du package sont stockées dans `translations/en` et `translations/fr`, puis chargées sous le namespace `ui`.
+Les fichiers de traduction sont disponibles dans `translations/en` et `translations/fr` et chargés sous le namespace `ui`. Exemple :
 
 ```php
 $translator->trans('ui::ui.select.search_placeholder');
 ```
 
-## Aller plus loin
+## Contribution et développement
 
-`impulsephp/ui` est particulièrement intéressant en combinaison avec :
+Pour contribuer :
 
-- `impulsephp/story` pour documenter les variantes visuelles ;
-- `impulsephp/validator` pour les formulaires ;
-- `impulsephp/translation` pour les interfaces multilingues.
-
-## Tests
-
-```bash
-composer test
-```
+1. Ouvrez une branche dédiée.
+2. Ajoutez des tests pour les comportements modifiés.
+3. Vérifiez les styles Tailwind si vous ajoutez des classes dynamiques (pré-déclarez les classes utilisées pour éviter leur purge).
 
 ## Licence
 
