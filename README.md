@@ -2,8 +2,6 @@
 
 `impulsephp/ui` fournit une bibliothèque de composants d’interface réutilisables pour ImpulsePHP, avec des stories de démonstration intégrées et des helpers pour accélérer le prototypage d’interfaces.
 
-Cette README a été mise à jour pour refléter les améliorations récentes : coloration du composant `CodeBlock`, contrôle des couleurs pour `Heatmap`, support d'éléments embarqués dans `Breadcrumb`, comportement amélioré du `Tooltip` et ajustements visuels pour `DataTable` / `TreeView`.
-
 ## Fonctionnalités principales
 
 - Composants UI pour formulaires, navigation, notifications et widgets d'interface.
@@ -48,9 +46,7 @@ Au démarrage, `UIProvider` :
 
 Les composants sont rangés sous `src/Component/` par famille : `Form/`, `Navigation/`, `Notification/`, `Interface/`.
 
-Exemples notables : `UIInputComponent`, `UIButtonComponent`, `UISelectComponent`, `UIModalComponent`, `UIDataTableComponent`, `UIDrawerComponent`, `UITooltipComponent`, `UIPopoverComponent`, `UIHeatmapComponent`, `UICodeBlockComponent`, `UIBreadcrumbComponent`, `UITreeViewComponent`, `UISidebarComponent`, etc.
-
-Note : le composant `UIPrintComponent` est désactivé / deprecated dans la version courante (template vide). Si vous souhaitez une suppression complète, contactez l'équipe ou supprimez les références aux stories associées.
+Exemples notables : `UIInputComponent`, `UIButtonComponent`, `UISelectComponent`, `UIModalComponent`, `UIDataTableComponent`, `UIDrawerComponent`, `UITooltipComponent`, `UIPopoverComponent`, `UIHeatmapComponent`, `UIBreadcrumbComponent`, `UITreeViewComponent`, `UISidebarComponent`, etc.
 
 ## Stories et contrôles
 
