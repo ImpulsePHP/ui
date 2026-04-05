@@ -20,17 +20,36 @@ final class UIProvider extends AbstractProvider implements HasComponentNamespace
      */
     protected function onBoot(ImpulseContainer $container): void
     {
-        Config::append('story.paths', [
-            'vendor/impulsephp/ui/src/Story',
-        ]);
+        // Add story path if not already present to avoid duplicates
+        $storyPath = 'vendor/impulsephp/ui/src/Story';
+        $existingPaths = Config::get('story.paths', []);
+        if (!in_array($storyPath, $existingPaths, true)) {
+            Config::append('story.paths', [$storyPath]);
+        }
 
-        Config::append('css', [
-            [
-                'path' => '/../public/css/ui.css',
-                'base' => __DIR__,
-                'inline' => true
-            ],
-        ]);
+        // Add css entry only if an equivalent entry isn't already present
+        $cssEntry = [
+            'path' => '/../public/css/ui.css',
+            'base' => __DIR__,
+            'inline' => true,
+        ];
+
+        $existingCss = Config::get('css', []);
+        $found = false;
+        foreach ($existingCss as $entry) {
+            if (!is_array($entry)) {
+                continue;
+            }
+
+            if ((($entry['path'] ?? null) === $cssEntry['path']) && (($entry['base'] ?? null) === $cssEntry['base'])) {
+                $found = true;
+                break;
+            }
+        }
+
+        if (!$found) {
+            Config::append('css', [$cssEntry]);
+        }
 
         $this->ensureTranslatorIsAvailable($container);
         $this->ensureValidatorIsAvailable($container);
