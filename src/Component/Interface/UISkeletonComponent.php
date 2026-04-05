@@ -47,6 +47,10 @@ final class UISkeletonComponent extends AbstractComponent
     {
         $shape = $this->getShapeClass();
         $animate = $this->animated ? 'animate-pulse' : '';
+        $useHeight = $this->height;
+        if ($this->shape === 'pill' && $this->height === 'h-4') {
+            $useHeight = 'h-6';
+        }
         $lines = [];
 
         for ($i = 0; $i < max(1, (int) $this->lines); $i++) {
@@ -58,7 +62,7 @@ final class UISkeletonComponent extends AbstractComponent
             };
 
             $lines[] = <<<HTML
-                <div class="{$lineWidth} {$this->height} {$shape} bg-slate-200 {$animate}"></div>
+                <div class="{$lineWidth} {$useHeight} {$shape} bg-slate-200 {$animate}"></div>
             HTML;
         }
 

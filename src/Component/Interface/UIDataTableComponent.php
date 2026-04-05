@@ -144,20 +144,27 @@ final class UIDataTableComponent extends AbstractComponent
 
     private function renderSortIcons(string $key): string
     {
+        // Show chevrons only for the currently sorted column.
         $isCurrent = $this->sortBy === $key;
         if (!$isCurrent) {
             return '';
         }
 
-        $upClass = $this->sortDirection === 'asc' ? 'text-slate-700' : 'text-slate-300';
-        $downClass = $this->sortDirection === 'desc' ? 'text-slate-700' : 'text-slate-300';
+        // Use fixed color classes to avoid dynamic class purge and render
+        // inline SVG chevrons so they are visible server-side (no client
+        // replacement needed). SVG uses stroke="currentColor" so Tailwind
+        // text color classes apply.
+        $activeClass = 'text-slate-800';
+        $inactiveClass = 'text-slate-300';
 
-        return <<<HTML
-            <span class="inline-flex flex-col leading-none ml-1">
-                <uiicon name="chevron-up" size="3" class="{$upClass}" />
-                <uiicon name="chevron-down" size="3" class="{$downClass}" />
-            </span>
-        HTML;
+        $upClass = $this->sortDirection === 'asc' ? $activeClass : $inactiveClass;
+        $downClass = $this->sortDirection === 'desc' ? $activeClass : $inactiveClass;
+
+        // Compact SVGs (12x12) for header chevrons.
+        $upSvg = '<svg class="h-3 w-3 ' . $upClass . '" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/></svg>';
+        $downSvg = '<svg class="h-3 w-3 ' . $downClass . '" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/></svg>';
+
+        return '<span class="inline-flex flex-col leading-none ml-1" aria-hidden="true">' . $upSvg . $downSvg . '</span>';
     }
 
     private function renderRowActions(int $rowIndex): string
@@ -173,34 +180,42 @@ final class UIDataTableComponent extends AbstractComponent
             $icon = (string) ($action['icon'] ?? '');
 
             if ($this->actionsMode === 'dropdown') {
-                $iconHtml = $icon !== '' ? '<uiicon name="' . $icon . '" size="4" class="text-slate-400" />' : '';
-                $actions[] = '<button type="button" class="w-full px-2 py-1.5 text-left text-xs hover:bg-slate-50 inline-flex items-center gap-2" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')">' . $iconHtml . '<span>' . $label . '</span></button>';
+                $actionColor = !empty($action['color']) ? (string) $action['color'] : '';
+                $iconClass = $actionColor !== '' ? 'text-' . $actionColor . '-600' : 'text-slate-400';
+                $labelClass = $actionColor !== '' ? 'text-' . $actionColor . '-700' : 'text-slate-700';
+                $iconHtml = $icon !== '' ? '<uiicon name="' . $icon . '" size="4" class="' . $iconClass . '" />' : '';
+                $actions[] = '<button type="button" class="w-full px-2 py-1.5 text-left text-xs hover:bg-slate-50 inline-flex items-center gap-2 ' . $labelClass . '" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')">' . $iconHtml . '<span>' . $label . '</span></button>';
                 continue;
             }
 
             if ($this->actionsMode === 'icons') {
                 $iconName = $icon !== '' ? $icon : 'ellipsis-horizontal';
-                $actions[] = '<button type="button" class="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-slate-50 text-' . $this->color . '-600" title="' . $label . '" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')"><uiicon name="' . $iconName . '" size="4" /></button>';
+                $actionColor = !empty($action['color']) ? (string) $action['color'] : null;
+                $iconClass = $actionColor ? 'text-' . $actionColor . '-600' : 'text-slate-500';
+                $actions[] = '<button type="button" class="inline-flex items-center justify-center h-7 w-7 rounded-md hover:bg-slate-50 ' . $iconClass . '" title="' . $label . '" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')"><uiicon name="' . $iconName . '" size="4" /></button>';
                 continue;
             }
 
             if ($icon !== '') {
-                $actions[] = '<button type="button" class="inline-flex items-center gap-1 text-xs text-' . $this->color . '-600" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')"><uiicon name="' . $icon . '" size="4" /><span>' . $label . '</span></button>';
+                $actionColor = !empty($action['color']) ? (string) $action['color'] : null;
+                $textClass = $actionColor ? 'text-' . $actionColor . '-600' : 'text-slate-700';
+                $actions[] = '<button type="button" class="inline-flex items-center gap-1 text-xs ' . $textClass . '" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')"><uiicon name="' . $icon . '" size="4" /><span>' . $label . '</span></button>';
             } else {
-                $actions[] = '<button type="button" class="text-xs text-' . $this->color . '-600" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')">' . $label . '</button>';
+                $actions[] = '<button type="button" class="text-xs text-slate-700" data-action-click="executeRowAction(\'' . $name . '\',' . $rowIndex . ')">' . $label . '</button>';
             }
         }
 
         if ($this->actionsMode === 'dropdown') {
             $menu = implode('', $actions);
             $isOpen = (int) $this->openRowActionMenu === $rowIndex;
-            $openClass = $isOpen ? '' : 'hidden';
+            $openDisplay = $isOpen ? 'block' : 'none';
+            $btnId = $this->id . '-row-actions-' . $rowIndex;
             return <<<HTML
                 <div class="relative inline-block">
-                    <button type="button" class="h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-500" aria-label="actions" data-action-click="toggleRowActionMenu({$rowIndex})">
+                    <button id="{$btnId}" type="button" class="h-7 w-7 inline-flex items-center justify-center rounded-md hover:bg-slate-50 text-slate-500" aria-label="actions" data-action-click="toggleRowActionMenu({$rowIndex})">
                         <uiicon name="ellipsis-horizontal" size="4" />
                     </button>
-                    <div class="{$openClass} absolute right-0 bottom-full mb-1 min-w-40 max-h-56 overflow-y-auto bg-white border border-slate-200 rounded-md shadow-lg z-50 py-1" data-close-outside="self" data-close-outside-action="closeRowActionMenu">
+                    <div style="display: {$openDisplay};" data-portal-target="body" data-portal-anchor="#{$btnId}" data-portal-align="top-right" class="absolute right-0 bottom-full mb-1 min-w-40 max-h-56 overflow-y-auto bg-white border border-slate-200 rounded-md shadow-lg z-50 py-1" data-close-outside="self" data-close-outside-action="closeRowActionMenu">
                         {$menu}
                     </div>
                 </div>
@@ -208,6 +223,81 @@ final class UIDataTableComponent extends AbstractComponent
         }
 
         return '<div class="inline-flex gap-2">' . implode('', $actions) . '</div>';
+    }
+
+    /**
+     * @param array<string, mixed> $column
+     * @param array<string, mixed> $row
+     */
+    private function renderCellContent(mixed $value, array $column, array $row): string
+    {
+        if (is_array($value)) {
+            if (isset($value['html']) && is_string($value['html'])) {
+                return $value['html'];
+            }
+
+            if (isset($value['component']) && is_string($value['component'])) {
+                $tag = strtolower(trim($value['component']));
+                $props = is_array($value['props'] ?? null) ? $value['props'] : [];
+                $slot = isset($value['slot']) ? (string) $value['slot'] : '';
+                return $this->renderComponentTag($tag, $props, $slot);
+            }
+
+            if (isset($value['text'])) {
+                return htmlspecialchars((string) $value['text'], ENT_QUOTES | ENT_SUBSTITUTE);
+            }
+        }
+
+        if (isset($column['component']) && is_string($column['component'])) {
+            $tag = strtolower(trim((string) $column['component']));
+            $props = is_array($column['componentProps'] ?? null) ? $column['componentProps'] : [];
+            $slot = htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE);
+            return $this->renderComponentTag($tag, $props, $slot);
+        }
+
+        return htmlspecialchars((string) $value, ENT_QUOTES | ENT_SUBSTITUTE);
+    }
+
+    /**
+     * @param array<string, mixed> $props
+     */
+    private function renderComponentTag(string $tag, array $props, string $slot = ''): string
+    {
+        if ($tag === '') {
+            return $slot;
+        }
+
+        // Some UI components (server-side) expect a specific prop rather than a slot.
+        // Map known component tags to their label prop so stories can pass `slot`.
+        $labelPropMap = [
+            'uibadge' => 'label',
+        ];
+
+        // If a slot was provided and the component expects a label prop, set it
+        // instead of rendering inner HTML (the server component will read the prop).
+        if ($slot !== '' && isset($labelPropMap[$tag]) && !isset($props[$labelPropMap[$tag]])) {
+            $props[$labelPropMap[$tag]] = $slot;
+            // ensure we don't output slot content inside the tag (component reads prop)
+            $slot = '';
+        }
+
+        $attrs = [];
+        foreach ($props as $key => $propValue) {
+            if (!is_scalar($propValue) || $key === '') {
+                continue;
+            }
+
+            $attrKey = htmlspecialchars((string) $key, ENT_QUOTES | ENT_SUBSTITUTE);
+            $attrValue = htmlspecialchars((string) $propValue, ENT_QUOTES | ENT_SUBSTITUTE);
+            $attrs[] = $attrKey . '="' . $attrValue . '"';
+        }
+
+        $attrString = implode(' ', $attrs);
+        if ($slot === '') {
+            return '<' . $tag . ($attrString !== '' ? ' ' . $attrString : '') . ' />';
+        }
+
+        return '<' . $tag . ($attrString !== '' ? ' ' . $attrString : '') . '>' . $slot . '</' . $tag . '>';
     }
 
     public function template(): string
@@ -225,7 +315,7 @@ final class UIDataTableComponent extends AbstractComponent
             $key = is_array($column) ? (string) ($column['key'] ?? '') : (string) $column;
             $label = is_array($column) ? (string) ($column['label'] ?? $key) : (string) $column;
             $icons = $this->renderSortIcons($key);
-            $thead[] = '<th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500"><button type="button" class="inline-flex items-center" data-action-click="sort(\'' . $key . '\')">' . $label . $icons . '</button></th>';
+            $thead[] = '<th class="px-3 py-2 text-left text-xs font-semibold uppercase text-slate-500"><button type="button" class="inline-flex items-center gap-1" data-action-click="sort(\'' . $key . '\')">' . $label . $icons . '</button></th>';
         }
 
         $tbody = [];
@@ -240,7 +330,10 @@ final class UIDataTableComponent extends AbstractComponent
                 $cells = [];
                 foreach ($columns as $column) {
                     $key = is_array($column) ? (string) ($column['key'] ?? '') : (string) $column;
-                    $cells[] = '<td class="px-3 py-2 text-sm text-slate-700">' . (string) ($row[$key] ?? '') . '</td>';
+                    $columnDef = is_array($column) ? $column : ['key' => $key];
+                    $cellValue = $row[$key] ?? '';
+                    $cellContent = $this->renderCellContent($cellValue, $columnDef, $row);
+                    $cells[] = '<td class="px-3 py-2 text-sm text-slate-700">' . $cellContent . '</td>';
                 }
 
                 $cells[] = '<td class="px-3 py-2">' . $this->renderRowActions((int) $rowIndex) . '</td>';

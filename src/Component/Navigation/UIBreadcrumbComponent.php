@@ -35,20 +35,60 @@ final class UIBreadcrumbComponent extends AbstractComponent
 
     private function renderItem(array $item, bool $isLast): string
     {
-        $label = $item['label'] ?? '';
-        $url = $item['url'] ?? '#';
+        // allow item to be raw html or a component definition
+        if (isset($item['html'])) {
+            $content = (string) $item['html'];
+        } elseif (isset($item['component']) && is_string($item['component'])) {
+            $tag = strtolower(trim((string) $item['component']));
+            $props = is_array($item['props'] ?? null) ? $item['props'] : [];
+            $slot = isset($item['slot']) ? (string) $item['slot'] : '';
+            $content = $this->renderComponentTag($tag, $props, $slot);
+        } else {
+            $label = $item['label'] ?? '';
+            $url = $item['url'] ?? '#';
+            if ($isLast) {
+                return <<<HTML
+                    <li class="text-slate-700 font-medium" aria-current="page">{$label}</li>
+                HTML;
+            }
 
-        if ($isLast) {
             return <<<HTML
-                <li class="text-slate-700 font-medium" aria-current="page">{$label}</li>
+                <li>
+                    <a href="{$url}" class="text-{$this->color}-600 hover:underline">{$label}</a>
+                </li>
             HTML;
         }
 
-        return <<<HTML
-            <li>
-                <a href="{$url}" class="text-{$this->color}-600 hover:underline">{$label}</a>
-            </li>
-        HTML;
+        if ($isLast) {
+            return '<li class="text-slate-700 font-medium" aria-current="page">' . $content . '</li>';
+        }
+
+        return '<li>' . $content . '</li>';
+    }
+
+    private function renderComponentTag(string $tag, array $props, string $slot = ''): string
+    {
+        if ($tag === '') {
+            return $slot;
+        }
+
+        $attrs = [];
+        foreach ($props as $key => $propValue) {
+            if (!is_scalar($propValue) || $key === '') {
+                continue;
+            }
+
+            $attrKey = htmlspecialchars((string) $key, ENT_QUOTES | ENT_SUBSTITUTE);
+            $attrValue = htmlspecialchars((string) $propValue, ENT_QUOTES | ENT_SUBSTITUTE);
+            $attrs[] = $attrKey . '="' . $attrValue . '"';
+        }
+
+        $attrString = implode(' ', $attrs);
+        if ($slot === '') {
+            return '<' . $tag . ($attrString !== '' ? ' ' . $attrString : '') . ' />';
+        }
+
+        return '<' . $tag . ($attrString !== '' ? ' ' . $attrString : '') . '>' . $slot . '</' . $tag . '>';
     }
 
     public function template(): string

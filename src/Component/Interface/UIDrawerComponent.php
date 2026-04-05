@@ -28,7 +28,6 @@ final class UIDrawerComponent extends AbstractComponent
             'title' => $this->transOrDefault('drawer.title', 'Drawer'),
             'content' => '',
             'open' => false,
-            'side' => 'right',
             'width' => 'w-96',
             'closeOnBackdrop' => true,
         ]);
@@ -56,15 +55,18 @@ final class UIDrawerComponent extends AbstractComponent
 
     public function template(): string
     {
-        $hidden = $this->open ? '' : 'hidden';
         $position = $this->side === 'left' ? 'left-0' : 'right-0';
         $backdropAction = $this->closeOnBackdrop ? 'data-action-click="closeDrawer()"' : '';
+        $translateClosed = $this->side === 'left' ? '-100%' : '100%';
+        $translateValue = $this->open ? '0%' : $translateClosed;
+        $backdropVisible = $this->open ? 'block' : 'hidden';
+        $containerPointerClass = $this->open ? '' : 'pointer-events-none';
         $closeLabel = $this->transOrDefault('common.close', 'close');
 
         return <<<HTML
-            <div class="ui-drawer {$hidden} fixed inset-0 z-50" aria-hidden="true">
-                <div class="absolute inset-0 bg-slate-900/40" {$backdropAction}></div>
-                <aside class="absolute top-0 bottom-0 {$position} {$this->width} bg-white border-l border-slate-200 shadow-xl">
+            <div class="ui-drawer fixed inset-0 z-50 {$containerPointerClass}" aria-hidden="false">
+                <div class="absolute inset-0 bg-slate-900/40 {$backdropVisible}" {$backdropAction}></div>
+                <aside class="absolute top-0 bottom-0 {$position} {$this->width} bg-white border-l border-slate-200 shadow-xl" style="transform: translateX({$translateValue}); transition: transform 300ms ease; will-change: transform;">
                     <div class="flex items-center justify-between px-4 py-3 border-b border-slate-200">
                         <h3 class="font-semibold text-slate-800">{$this->title}</h3>
                         <button type="button" class="text-slate-500" data-action-click="closeDrawer()">{$closeLabel}</button>

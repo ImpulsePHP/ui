@@ -60,8 +60,14 @@ final class UISidebarComponent extends AbstractComponent
 
             $class = $active ? 'bg-indigo-50 text-indigo-700' : 'text-slate-700 hover:bg-slate-50';
             $iconHtml = $icon !== '' ? '<uiicon name="' . $icon . '" size="4" class="text-slate-400" />' : '';
-            $labelHtml = $this->collapsed ? '' : '<span>' . $label . '</span>';
-            $links[] = '<button type="button" class="w-full flex items-center gap-2 px-3 py-2 rounded ' . $class . '" data-action-click="setActive(\'' . $value . '\')">' . $iconHtml . $labelHtml . '</button>';
+            if ($this->collapsed) {
+                $labelHtml = '';
+                $btnClass = 'w-full flex items-center justify-center gap-2 px-2 py-2 rounded ' . $class;
+            } else {
+                $labelHtml = '<span>' . $label . '</span>';
+                $btnClass = 'w-full flex items-center gap-2 px-3 py-2 rounded ' . $class;
+            }
+            $links[] = '<button type="button" class="' . $btnClass . '" data-action-click="setActive(\'' . $value . '\')">' . $iconHtml . $labelHtml . '</button>';
         }
 
         $linksHtml = implode('', $links);
@@ -75,12 +81,11 @@ final class UISidebarComponent extends AbstractComponent
             HTML;
         }
 
+        $titleHtml = $this->collapsed ? '<h3 class="text-sm font-semibold text-slate-800 truncate text-center w-full">' . $this->title . '</h3>' : '<h3 class="text-sm font-semibold text-slate-800">' . $this->title . '</h3>';
+
         return <<<HTML
-            <aside class="ui-sidebar {$width} border-r border-slate-200 bg-white p-3 space-y-3 transition-all">
-                <div class="flex items-center justify-between">
-                    <h3 class="text-sm font-semibold text-slate-800">{$this->title}</h3>
-                    {$toggleButton}
-                </div>
+            <aside class="ui-sidebar {$width} border-r border-slate-200 bg-white p-3 space-y-3 transition-all overflow-hidden">
+                <div class="flex items-center justify-between">{$titleHtml}{$toggleButton}</div>
                 <nav class="space-y-1">{$linksHtml}</nav>
             </aside>
         HTML;

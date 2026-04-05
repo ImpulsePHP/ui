@@ -18,17 +18,17 @@ final class DataTableStory extends AbstractStory
     protected function getBaseArgs(): array
     {
         return [
-            'columns' => [['key' => 'name', 'label' => 'Name'], ['key' => 'role', 'label' => 'Role']],
+            'columns' => [['key' => 'name', 'label' => 'Name'], ['key' => 'role', 'label' => 'Role'], ['key' => 'status', 'label' => 'Status']],
             'rows' => [
-                ['name' => 'Alice', 'role' => 'Admin'],
-                ['name' => 'Bob', 'role' => 'Editor'],
-                ['name' => 'Claire', 'role' => 'Viewer'],
-                ['name' => 'David', 'role' => 'Admin'],
+                ['name' => 'Alice', 'role' => 'Admin', 'status' => ['component' => 'uibadge', 'props' => ['color' => 'green'], 'slot' => 'Active']],
+                ['name' => 'Bob', 'role' => 'Editor', 'status' => ['component' => 'uibadge', 'props' => ['color' => 'amber'], 'slot' => 'Pending']],
+                ['name' => 'Claire', 'role' => 'Viewer', 'status' => ['component' => 'uibadge', 'props' => ['color' => 'slate'], 'slot' => 'Idle']],
+                ['name' => 'David', 'role' => 'Admin', 'status' => ['component' => 'uibadge', 'props' => ['color' => 'red'], 'slot' => 'Blocked']],
             ],
             'rowActions' => [
                 ['name' => 'view', 'label' => 'View', 'icon' => 'eye'],
-                ['name' => 'edit', 'label' => 'Edit', 'icon' => 'pencil-square'],
-                ['name' => 'delete', 'label' => 'Delete', 'icon' => 'trash'],
+                ['name' => 'edit', 'label' => 'Edit', 'icon' => 'pencil-square', 'color' => 'indigo'],
+                ['name' => 'delete', 'label' => 'Delete', 'icon' => 'trash', 'color' => 'red'],
             ],
             'showPagination' => true,
             'perPage' => 2,
@@ -44,6 +44,7 @@ final class DataTableStory extends AbstractStory
             'sorted by name' => ['sortBy' => 'name', 'sortDirection' => 'asc'],
             'icon actions' => ['actionsMode' => 'icons'],
             'dropdown actions' => ['actionsMode' => 'dropdown'],
+            'component cells' => [],
             'without pagination' => ['showPagination' => false, 'perPage' => 10],
         ];
     }

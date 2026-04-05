@@ -239,20 +239,22 @@ final class UIDropdownComponent extends AbstractComponent
     public function template(): string
     {
         $buttonSize = $this->getButtonSizeClass();
-        $openClass = $this->open ? '' : 'hidden';
+        $openDisplay = $this->open ? 'block' : 'none';
         $alignClass = $this->align === 'right' ? 'right-0' : 'left-0';
         $selectedLabel = $this->selected !== '' ? $this->resolveLabel($this->selected) : $this->label;
         $items = $this->renderItems();
         $chevronRotate = $this->open ? 'rotate-180' : '';
         $buttonBorder = $this->borderless ? 'border-transparent shadow-none' : 'border-slate-300';
 
+        $portalAlign = $this->align === 'right' ? 'bottom-right' : 'bottom-left';
+
         return <<<HTML
             <div class="ui-dropdown relative inline-block">
-                <button type="button" class="{$buttonSize} rounded-md border {$buttonBorder} bg-white text-slate-700 hover:bg-slate-50 inline-flex items-center gap-2" data-action-click="toggleDropdown()">
+                <button id="{$this->id}-toggle" type="button" class="{$buttonSize} rounded-md border {$buttonBorder} bg-white text-slate-700 hover:bg-slate-50 inline-flex items-center gap-2" data-action-click="toggleDropdown()">
                     <span>{$selectedLabel}</span>
                     <uiicon name="chevron-down" size="4" class="text-slate-400 transition-transform {$chevronRotate}" />
                 </button>
-                <div class="{$openClass} absolute {$alignClass} mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-lg z-40" data-close-outside="self" data-close-outside-action="closeDropdown">
+                <div style="display: {$openDisplay};" data-portal-target="body" data-portal-anchor="#{$this->id}-toggle" data-portal-align="{$portalAlign}" class="absolute {$alignClass} mt-2 w-56 bg-white border border-slate-200 rounded-md shadow-lg z-40" data-close-outside="self" data-close-outside-action="closeDropdown">
                     <div class="py-1">{$items}</div>
                 </div>
             </div>

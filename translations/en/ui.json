@@ -1,0 +1,7 @@
+{
+  "print": {"label":"Print"},
+  "select": {"search_placeholder":"Search...","no_results":"No results found","no_options":"No options"},
+  "datatable": {"empty":"No data available.","actions":"Actions"},
+  "pagination": {"previous":"Previous","next":"Next"}
+}
+
