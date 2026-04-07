@@ -185,7 +185,7 @@ final class UISelectComponent extends AbstractComponent
             'field' => $this->name ?: $this->id,
             'value' => $this->value,
             'error' => $this->errorMessage,
-            'isValid' => empty($this->errorMessage)
+            'isValid' => (int) empty($this->errorMessage)
         ]);
     }
 
